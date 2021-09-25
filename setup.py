@@ -7,6 +7,7 @@ from setuptools import setup, find_packages
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
+
 def _parse_requirement_file(path):
     if not os.path.isfile(path):
         return []
@@ -19,10 +20,13 @@ def get_install_requires():
     requirement_file = os.path.join(THIS_FOLDER, "requirements.txt")
     return _parse_requirement_file(requirement_file)
 
+
 setup(
-    name="gm_cache",
-    version="0.1.0",
+    name="gmcache",
+    version="1.0.0",
+    url="https://github.com/yiliuyan161/gmcache",
     description="掘金SDK API缓存",
+    keywords='掘金SDK API缓存',
     packages=find_packages(exclude=("tests", "tests.*")),
     author="yiliuyan",
     author_email="yiliuyan161@126.com",

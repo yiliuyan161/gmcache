@@ -1,4 +1,4 @@
-gm>=3.0.124
-diskcache>=5.1.0
+gm
+diskcache
 
 
