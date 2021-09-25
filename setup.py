@@ -24,10 +24,10 @@ setup(
     version="0.1.0",
     description="掘金SDK API缓存",
     packages=find_packages(exclude=("tests", "tests.*")),
-    author="chenjiajia",
-    author_email="chenjiajia1@gmail.com",
-    maintainer="chenjiajia",
-    maintainer_email="chenjiajia1@gmail.com",
+    author="yiliuyan",
+    author_email="yiliuyan161@126.com",
+    maintainer="yiliuyan",
+    maintainer_email="yiliuyan161@126.com",
     package_data={'': ['*.*']},
     long_description="",
     long_description_content_type='text/markdown',
@@ -38,9 +38,9 @@ setup(
         'Programming Language :: Python',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9'
     ],
 )

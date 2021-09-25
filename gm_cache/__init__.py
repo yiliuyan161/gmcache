@@ -1,51 +1,33 @@
-import sys
-import os
-import gm.api
-from diskcache import FanoutCache
-from functools import partial
-cache = FanoutCache()
-
-
-@cache.memoize(typed=True, expire=604800, tag='gm1week')
-def cache1week(name,**kw):
-    result = getattr(gm.api, name)(**kw)
-    return result
-
-@cache.memoize(typed=True, expire=86400, tag='gm1day')
-def cache1day(name,**kw):
-    result = getattr(gm.api, name)(**kw)
-    return result
-
-@cache.memoize(typed=True, expire=3600, tag='gm1hour')
-def cache1hour(name,**kw):
-    result = getattr(gm.api, name)(**kw)
-    return result
-
-class GMCache1Week(object):
-     def __getattr__(self, name):
-         return partial(cache1week,name)
-     
-class GMCache1Day(object):
-     def __getattr__(self, name):
-         return partial(cache1day,name)
-
-class GMCache1Hour(object):
-     def __getattr__(self, name):
-         return partial(cache1hour,name)
-gm1week=GMCache1Week()
-gm1day=GMCache1Day()
-gm1hour=GMCache1Hour()
-
 import shutil
+from functools import partial
+
+import gm.api
+import gm.api
+from diskcache import Cache
+
+cache = Cache()
+
+
+@cache.memoize(typed=True, expire=604800, tag='1week')
+def cache_api(name, *args, **kw):
+    result = getattr(gm.api, name)(*args, **kw)
+    return result
+
+
+class GMCache(object):
+
+    def __getattr__(self, name):
+        return partial(cache_api, name)
+
+
+api = GMCache()
+
+
 def clean_all_cache():
     try:
         shutil.rmtree(cache.directory)
-    except OSError:  # Windows wonkiness
+    except OSError:
         print("清理失败,请手动清理 {dir}".format(dir=cache.directory))
-         
 
 
-__all__ = ['gm1week','gm1day','gm1hour','clean_all_cache']
-
-
-
+__all__ = ['api', 'clean_all_cache']
