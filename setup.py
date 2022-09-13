@@ -23,7 +23,7 @@ def get_install_requires():
 
 setup(
     name="gmcache",
-    version="1.0.3",
+    version="1.0.4",
     url="https://github.com/yiliuyan161/gmcache",
     description="掘金SDK API缓存",
     keywords='掘金SDK API缓存',

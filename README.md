@@ -12,9 +12,9 @@ from gm.api import *  改成 from gmcache import *
 from gmcache import *  # 回测环境使用缓存API,实时运行的时候再改回去
 # from gm.api import *  
 
-set_token("XXXXXX")
+set_token("XXXXXX")  # 第一次设置会保存到.gmcache/config.json 下次import 会自动加载token执行set_token 
 
-df = get_instruments(exchanges='SZSE,SHSE',sec_types=1, df=True)
+df = get_instruments(exchanges='SZSE,SHSE',sec_types=1, df=True) # 缓存读取大约花费1-3ms
 
 # 清理所有缓存
 clear_cache()

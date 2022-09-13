@@ -8,6 +8,7 @@ import sys
 from functools import wraps
 from os.path import expanduser
 
+import gm.api.basic
 import pandas as pd
 from diskcache import Cache
 from gm import __version__
@@ -15,15 +16,15 @@ from gm.csdk.c_sdk import py_gmi_set_version
 from gm.enum import *
 from gm.model.storage import Context
 from typing import List
+from .utils import store_config, load_config
 
 home = expanduser("~").replace("\\", "/")
 cache = Cache(directory=home + "/.gmcache", timeout=60, sqlite_synchronous=0)
 
 # 基本api
-from gm.api.basic import (
-    set_token, set_mfp, get_version, subscribe, unsubscribe,
-    current, get_strerror, schedule, run, set_parameter,
-    add_parameter, log, set_serv_addr, stop)
+from gm.api.basic import (set_mfp, get_version, subscribe, unsubscribe,
+                          current, get_strerror, schedule, run, set_parameter,
+                          add_parameter, log, set_serv_addr, stop)
 
 # 两融api
 from gm.api.credit import credit_get_borrowable_instruments_positions, credit_buying_on_collateral, \
@@ -44,6 +45,19 @@ from gm.api.bond import bond_reverse_repurchase_agreement, bond_convertible_put,
 
 # 数据查询api
 from gm.api import query
+
+
+def set_token(token: str = None):
+    if token is not None:
+        gm.api.basic.set_token(token)
+        store_config({'token': token})
+    else:
+        config = load_config()
+        if "token" in config.keys():
+            gm.api.basic.set_token(config['token'])
+
+
+set_token()
 
 
 def _compute_key(args, kwargs):
