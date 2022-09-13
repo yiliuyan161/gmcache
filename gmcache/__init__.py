@@ -8,11 +8,13 @@ import sys
 from functools import wraps
 from os.path import expanduser
 
+import pandas as pd
 from diskcache import Cache
 from gm import __version__
 from gm.csdk.c_sdk import py_gmi_set_version
 from gm.enum import *
 from gm.model.storage import Context
+from typing import List
 
 home = expanduser("~").replace("\\", "/")
 cache = Cache(directory=home + "/.gmcache", timeout=60, sqlite_synchronous=0)
@@ -99,8 +101,10 @@ def gm_cache(expire=604800):
                 cached = cache.get(key)
             if cached is None:
                 cached = function(*args, **kwargs)
-                with cache:
-                    cache.set(key, cached, expire=expire)
+                if cached is not None and ((isinstance(cached, pd.DataFrame) and cached.shape[0] > 0) or (
+                        isinstance(cached, List) and len(cached) > 0)):
+                    with cache:
+                        cache.set(key, cached, expire=expire)
             return cached
 
         return __memoize
